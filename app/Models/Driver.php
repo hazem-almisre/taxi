@@ -4,11 +4,12 @@ namespace App\Models;
 
 use App\Models\Car;
 //use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use App\Models\Image;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Driver extends Authenticatable
 {
@@ -53,5 +54,10 @@ class Driver extends Authenticatable
     public function user()
     {
         return $this->belongsToMany(User::class, 'requests', 'driver_id', 'user_id');
+    }
+
+    public function imageCar()
+    {
+        $this->hasOneThrough(Image::class, Car::class, 'car_id', 'car_id'/*driver_id*/, 'id', 'id');
     }
 }

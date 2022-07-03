@@ -34,6 +34,11 @@ class DriverController extends Controller
         // $driver = $driver->with(['car' => function ($car) {
         //     $car->with('images');
         // }])->get();
+
+        //or
+        // $driver =$driver->with('imageCar');
+
+        //or
         $driver = DB::table('drivers')->join('cars', 'cars.id', '=', 'drivers.car_id')
             ->join('images', 'images.car_id', '=', 'cars.id')->select('drivers.*', 'images.photos_car')->get();
 
@@ -54,7 +59,7 @@ class DriverController extends Controller
             return response()->json(['driver is not exit']);
         }
 
-        Image::query()->where('car_id',$driver->car_id)->delete();
+        Image::query()->where('car_id', $driver->car_id)->delete();
         $driver->delete();
         return response()->json(['driver`s account is deleted']);
     }
